@@ -1,0 +1,11 @@
+
+path: E:/Users/Kai 00/Documents/Master/Semester 3/AACV/Project/bdd100k_convert
+train: images/train # relative path
+val: images/valid # relative path
+
+#Classes
+names:
+  0: car
+  1: pedestrian
+  2: traffic light
+  3: traffic sign
