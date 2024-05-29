@@ -1,11 +1,23 @@
 
-path: E:/Users/Kai 00/Documents/Master/Semester 3/AACV/Project/bdd100k_convert
+path: E:/Users/Kai 00/Documents/Master/Semester 3/AACV/Project/IDD_converted
 train: images/train # relative path
-val: images/valid # relative path
+val: images/val # relative path
 
 #Classes
+nc: 15
 names:
   0: car
-  1: pedestrian
-  2: traffic light
-  3: traffic sign
+  1: bus
+  2: autorickshaw
+  3: vehicle fallback
+  4: truck
+  5: motorcycle
+  6: rider
+  7: person
+  8: bicycle
+  9: animal
+  10: traffic sign
+  11: train
+  12: trailer
+  13: traffic light
+  14: caravan
