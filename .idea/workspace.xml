@@ -4,13 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="dab0cf19-7cae-4dbf-8b99-9acde26076b9" name="Changes" comment="Changed up folder structure + showing results for first training">
-      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/profiles_settings.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/YOLOv8/convert_to_yolo.py" afterDir="false" />
+    <list default="true" id="dab0cf19-7cae-4dbf-8b99-9acde26076b9" name="Changes" comment="Adjusted for IDD + python file for yolo conversion">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/YOLOv8/config.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/YOLOv8/config.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/YOLOv8/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/YOLOv8/main.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -72,8 +69,9 @@
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
       <option name="SDK_HOME" value="" />
+      <option name="SDK_NAME" value="Python 3.11" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
-      <option name="IS_MODULE_SDK" value="true" />
+      <option name="IS_MODULE_SDK" value="false" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/main.py" />
@@ -118,7 +116,15 @@
       <option name="project" value="LOCAL" />
       <updated>1716732439039</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="Adjusted for IDD + python file for yolo conversion">
+      <option name="closed" value="true" />
+      <created>1716946638329</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1716946638329</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -135,6 +141,7 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="First commit" />
     <MESSAGE value="Changed up folder structure + showing results for first training" />
-    <option name="LAST_COMMIT_MESSAGE" value="Changed up folder structure + showing results for first training" />
+    <MESSAGE value="Adjusted for IDD + python file for yolo conversion" />
+    <option name="LAST_COMMIT_MESSAGE" value="Adjusted for IDD + python file for yolo conversion" />
   </component>
 </project>

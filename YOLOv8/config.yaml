@@ -9,15 +9,15 @@ names:
   0: car
   1: bus
   2: autorickshaw
-  3: vehicle fallback
+  # 3: vehicle fallback
   4: truck
   5: motorcycle
   6: rider
   7: person
   8: bicycle
-  9: animal
+  # 9: animal
   10: traffic sign
-  11: train
-  12: trailer
+  # 11: train
+  # 12: trailer
   13: traffic light
-  14: caravan
+  # 14: caravan
