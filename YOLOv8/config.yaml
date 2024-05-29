@@ -1,5 +1,5 @@
 
-path: E:/Users/Kai 00/Documents/Master/Semester 3/AACV/Project/IDD_converted
+path: /kaggle/input/idd-converted/IDD_converted
 train: images/train # relative path
 val: images/val # relative path
 

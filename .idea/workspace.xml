@@ -4,10 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="dab0cf19-7cae-4dbf-8b99-9acde26076b9" name="Changes" comment="Adjusted for IDD + python file for yolo conversion">
+    <list default="true" id="dab0cf19-7cae-4dbf-8b99-9acde26076b9" name="Changes" comment="Changing to pretrained model + only train for 10 classes">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/YOLOv8/config.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/YOLOv8/config.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/YOLOv8/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/YOLOv8/main.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -124,7 +123,15 @@
       <option name="project" value="LOCAL" />
       <updated>1716946638329</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="Changing to pretrained model + only train for 10 classes">
+      <option name="closed" value="true" />
+      <created>1717004051349</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1717004051349</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -142,6 +149,7 @@
     <MESSAGE value="First commit" />
     <MESSAGE value="Changed up folder structure + showing results for first training" />
     <MESSAGE value="Adjusted for IDD + python file for yolo conversion" />
-    <option name="LAST_COMMIT_MESSAGE" value="Adjusted for IDD + python file for yolo conversion" />
+    <MESSAGE value="Changing to pretrained model + only train for 10 classes" />
+    <option name="LAST_COMMIT_MESSAGE" value="Changing to pretrained model + only train for 10 classes" />
   </component>
 </project>
