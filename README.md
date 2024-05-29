@@ -14,7 +14,7 @@ pip install -r requirements.txt
 - run ..\AACVProject\YOLOv8\main.py
 
 ### 1.3 How to test the model
-- TODO
+- TODO -
 
 
 ## 2. ResNet50
