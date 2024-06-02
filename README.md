@@ -17,8 +17,7 @@ pip install -r requirements.txt
 
 ### 1.2.2 How to train the model on Kaggle
 - Go to https://www.kaggle.com/code/kaiweiss/aacv-project/edit
-- Click on the 'Run All' button
-- If the console asks you to enter an API key, paste this in: 1ee681c23fb80ab32f209b543ef19111269008b2
+- Click on the 'Save Version' button and let it run
 
 ### 1.3 How to test the model
 - TODO -
