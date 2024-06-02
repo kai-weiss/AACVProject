@@ -4,9 +4,10 @@ import yaml
 from PIL import Image
 
 # Paths to your dataset
-annotations_path = 'path/to/annotations/'
-images_path = 'path/to/images/'
-output_path = 'path/to/output/'
+annotations_path = 'E:/Users/Kai 00/Documents/Master/Semester 3/AACV/Project/input_label'
+images_path = 'E:/Users/Kai 00/Documents/Master/Semester 3/AACV/Project/input_images'
+output_path = 'E:/Users/Kai 00/Documents/Master/Semester 3/AACV/Project/output_images'
+
 
 # Function to convert XML annotations (from IDD) to YOLO format
 def convert_to_yolo(xml_file, img_width, img_height, class_name_to_id):

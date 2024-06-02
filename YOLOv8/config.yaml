@@ -1,23 +1,18 @@
 
-path: /kaggle/input/idd-converted/IDD_converted
-train: images/train # relative path
-val: images/val # relative path
+path: /kaggle/input/idddtataset
+train: shrunk/train # relative path
+val: shrunk/val # relative path
 
 #Classes
-nc: 15
+nc: 10
 names:
   0: car
   1: bus
   2: autorickshaw
-  # 3: vehicle fallback
-  4: truck
-  5: motorcycle
-  6: rider
-  7: person
-  8: bicycle
-  # 9: animal
-  10: traffic sign
-  # 11: train
-  # 12: trailer
-  13: traffic light
-  # 14: caravan
+  3: truck
+  4: motorcycle
+  5: rider
+  6: person
+  7: bicycle
+  8: traffic sign
+  9: traffic light
