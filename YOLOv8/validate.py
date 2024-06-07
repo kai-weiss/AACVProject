@@ -1,0 +1,9 @@
+from ultralytics import YOLO
+
+# Load the pretrained YOLOv8 base model
+model = YOLO('best.pt')
+
+# Run validation on a set specified as 'val' argument
+metrics = model.val(data='config.yaml')
+
+print(metrics.results_dict)
