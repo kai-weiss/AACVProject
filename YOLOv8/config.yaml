@@ -1,7 +1,8 @@
 
-path: /kaggle/input/idddtataset
-train: shrunk/train # relative path
-val: shrunk/val # relative path
+path: E:/Users/Kai 00/Documents/Master/Semester 3/AACV/Project
+train: IDD10_shrunk/train # relative path
+val: IDD10_shrunk/val # relative path
+test: IDD10_shrunk/test # relative path
 
 #Classes
 nc: 10
