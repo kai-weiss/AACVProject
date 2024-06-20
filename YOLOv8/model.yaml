@@ -1,0 +1,8 @@
+# Model Configuration
+model:
+  backbone:
+    type: resnet50
+    pretrained: true  # Whether to use pre-trained weights
+    num_classes: 1000  # Number of output classes of the backbone (if applicable)
+
+
