@@ -1,6 +1,7 @@
-path: D:/Coding/Uni/traffic3/shrunk
+path: E:/Users/Kai 00/Documents/Master/Semester 3/AACV/Project/IDD10_shrunk
 train: train # relative path
 val: val # relative path
+test: test # relative path
 
 #Classes
 nc: 10
@@ -15,3 +16,37 @@ names:
   7: bicycle
   8: traffic sign
   9: traffic light
+
+species_mapping:
+  0: car
+  1: bus
+  2: autorickshaw
+  3: truck
+  4: motorcycle
+  5: rider
+  6: person
+  7: bicycle
+  8: traffic sign
+  9: traffic light
+
+  10: two wheeler
+  11: large vehicle
+
+  12: non driving
+  13: living things
+  14: vehicle
+
+  15: root
+
+
+family_mapping:
+  "car" : "large vehicle"
+  "bus" : "large vehicle"
+  "autorickshaw" : "large vehicle"
+  "truck" : "large vehicle"
+  "motorcycle" : "two wheeler"
+  "rider" : "living things"
+  "person" : "living things"
+  "bicycle" : "two wheeler"
+  "traffic sign" : "non driving"
+  "traffic light" : "non driving"

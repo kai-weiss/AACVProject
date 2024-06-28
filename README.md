@@ -47,9 +47,15 @@ Example Test result (shrunk dataset!):
 ![First image test result](Results/YOLOv8/frontFar_BLR-2018-04-16_15-34-27_frontFar_0002580.jpg)
 ![First video result](Results/YOLOv8/video1.gif)
 
-## 2. YOLOv8 + CBAM
+## 2. YOLOv8 + Weighted Loss..
 
-## 3. YOLOv8 + CBAM + RL
+## 3. YOLOv8 + Hierarchical Classification
+
+First, run [predict_with_extraction_main.py](YOLOv8%2FHierarchical_classification%2Fpredict_with_extraction_main.py) to receive the original predictions.
+They will be safed as "predictions.json". For now, the script is configured to run on the test datset (check [config.yaml](YOLOv8%2Fconfig.yaml)). If wanted, you can plot the result images.
+
+Afterwards, run [hierarchical_classification_main.py](YOLOv8%2FHierarchical_classification%2Fhierarchical_classification_main.py) to get the new calculated predictions, following the hierarchical classification. 
+If wanted, results will be safed as "new_predictions.json". Optionally, you can also plot the new predicions on the images.
 
 ## 4. Others
 
