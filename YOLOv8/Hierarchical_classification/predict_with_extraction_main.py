@@ -7,20 +7,21 @@ model_path = 'best.pt'
 # check config file
 with open('../config.yaml', 'r') as f:
     config = yaml.safe_load(f)
-    img_path = config['path'] + '/' + config['test'] + '/images'
+    img_path = config['path'] + '/' + config['val'] + '/images'
     category_mapping = config['names']
 
 # run inference
 results = run_predict(input_path=img_path,
                       model_path=model_path,
-                      score_threshold=0.4,
-                      iou_threshold=0.5,
+                      score_threshold=0.25, # 0.001
+                      iou_threshold=0.7, # 0.6
                       save_image=False,
                       save_json=True,
                       category_mapping=category_mapping,
                       softmax_temperature_value=3,
                       agnostic=False,
                       )
+
 
 for result in results:
     print("\n")

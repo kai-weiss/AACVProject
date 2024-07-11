@@ -231,6 +231,10 @@ def results_predict(img_path, model, hooks, threshold=0.5, iou=0.7, softmax_temp
     # the hooks store everything we need
     model(img_path)
 
+    # Keep in mind that every picture needs the same sizes!
+    img_width = 1280
+    img_height = 964
+
     # now reverse engineer the outputs to find the logits
     # see Detect.forward(): https://github.com/ultralytics/ultralytics/blob/b638c4ed9a24270a6875cdd47d9eeda99204ef5a/ultralytics/nn/modules/head.py#L22
     shape = detect_hook.input[0][0].shape  # BCHW
@@ -260,8 +264,10 @@ def results_predict(img_path, model, hooks, threshold=0.5, iou=0.7, softmax_temp
         boxes.append({
             'image_id': img_path,
             'bbox': [x0.item(), y0.item(), x1.item(), y1.item()],  # xyxy
-            'bbox_xywh': [(x0.item() + x1.item()) / 2, (y0.item() + y1.item()) / 2, x1.item() - x0.item(),
-                          y1.item() - y0.item()],
+            'bbox_xywh': [(x0.item() + x1.item()) / 2 / img_width,
+                          (y0.item() + y1.item()) / 2 / img_height,
+                          (x1.item() - x0.item()) / img_width,
+                          (y1.item() - y0.item()) / img_height],
             'logits': logits.cpu().tolist(),
             'activations': [p.item() for p in class_probs_after_sigmoid]
         })

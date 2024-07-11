@@ -1,4 +1,4 @@
-path: E:/Users/Kai 00/Documents/Master/Semester 3/AACV/Project/IDD10_shrunk
+path: C:/Users/kaiwe/Documents/Master/Semester 3/archive/shrunk
 train: train # relative path
 val: val # relative path
 test: test # relative path
