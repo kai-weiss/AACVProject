@@ -65,3 +65,9 @@ If wanted, results will be safed as "new_predictions.json". Optionally, you can 
 https://wandb.ai/kaiweiss0/projects
 
 ## 5. Ensemble Learning
+Check the directory 'Ensemble Learning'. 
+Use the custom_val.py file to ensemble the predictions. 
+Please note, these .py files assume that model1 is the bigger model, and model2 is the smaller model. 
+Replace the val.py in your 'ultralytics\models\yolo\detect\val.py' with the val.py from this repo.
+Replace the validator.py in your 'ultralytics\engine\validator.py' with the validator.py from this repo.
+Work in progress: setting up custom conf and iou thresholds. 
