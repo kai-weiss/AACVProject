@@ -69,6 +69,8 @@ def use_custom_predictions(custom_predictions, current_file, predn_conf, predn_p
                     # y = pred.boxes.cls[i]
 
                 predn_conf[i] = pred.boxes.conf[i]
+                # Ensemble learning maybe needs more than just changing the confidence scores..
+                # predn_pred_cls[i] = pred.boxes.cls[i]
 
             break
 
