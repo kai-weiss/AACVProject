@@ -264,10 +264,8 @@ def results_predict(img_path, model, hooks, threshold=0.5, iou=0.7, softmax_temp
         boxes.append({
             'image_id': img_path,
             'bbox': [x0.item(), y0.item(), x1.item(), y1.item()],  # xyxy
-            'bbox_xywh': [(x0.item() + x1.item()) / 2 / img_width,
-                          (y0.item() + y1.item()) / 2 / img_height,
-                          (x1.item() - x0.item()) / img_width,
-                          (y1.item() - y0.item()) / img_height],
+            'bbox_xywh': [(x0.item() + x1.item()) / 2, (y0.item() + y1.item()) / 2, x1.item() - x0.item(),
+                          y1.item() - y0.item()],
             'logits': logits.cpu().tolist(),
             'activations': [p.item() for p in class_probs_after_sigmoid]
         })
@@ -286,7 +284,7 @@ def results_predict(img_path, model, hooks, threshold=0.5, iou=0.7, softmax_temp
 
     # do the NMS
     nms_results = \
-        ops.non_max_suppression(boxes_for_nms, conf_thres=threshold, iou_thres=iou, nc=detect.nc, agnostic=agnostic)[0]
+        ops.non_max_suppression(boxes_for_nms, conf_thres=threshold, iou_thres=iou, multi_label=True, nc=detect.nc, agnostic=agnostic)[0]
 
     # unpack it and return it
     boxes = []

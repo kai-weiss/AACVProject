@@ -19,6 +19,25 @@ import torch
 
 from ultralytics.utils import LOGGER, SimpleClass, TryExcept, plt_settings
 
+species_color_mapping = {
+    0: "#FCF7FF",
+    1: "#FF924C",
+    2: "#E85155",
+    3: "#FFCA3A",
+    4: "#4267AC",
+    5: '#8AC926',
+    6: '#A64692',
+    7: "#6A4C93",
+    8: "#A1E8CC",
+    9: "#4B4237",
+    10: '#C5CA30',
+    11: "#41D3BD",
+    12: '#E067A7',
+    13: "#FF595E",
+    14: "#BFD7EA",
+    15: "#e197f0",
+}
+
 
 # Create the inverted dictionaries
 def prepare_dictionaries(species_mapping, family_mapping):
@@ -85,18 +104,20 @@ def run_hierarchical_classification(predictions_file, threshold, species_mapping
     return predictions
 
 
-def plot_with_new_predictions(input_path, new_predictions, species_mapping):
-    img_paths = []
+def plot_n_images_from_imageids_list(image_id_list, new_predictions, species_mapping, img_path, label_path, n=None):
+    if not n: n = len(image_id_list)
+    gt_data = load_ground_truths(label_path)
+    # Iterate through predictions
+    for image_id in image_id_list[:n]:  # Change the number of predictions you want to process
 
-    # Traverse directory
-    for root, dirs, files in os.walk(input_path):
-        for file in files:
-            full_path = os.path.join(root, file)
-            img_paths.append(full_path)
+        # Find corresponding row in CSV
 
-    # print(img_paths)
+        print(image_id)
+        print(gt_data[image_id])
 
-    for img_path in img_paths:
+        # gt_bboxes = eval(csv_row["bounding_boxes"].values[0])
+
+        filtered_predictions = [prediction for prediction in new_predictions if prediction["image_id"] == image_id]
 
         # Initialize lists to store the extracted fields
         category_ids = []
@@ -105,14 +126,23 @@ def plot_with_new_predictions(input_path, new_predictions, species_mapping):
         original_scores = []
         bboxes = []
 
-        for prediction in new_predictions:
+        # Load image
+        img = Image.open(img_path + '/' + image_id)
+        img_width, img_height = img.size
+
+        fig, ax = plt.subplots()
+        ax.imshow(img)
+
+        # Loop through filtered predictions to extract fields
+        for prediction in filtered_predictions:
             category_id = prediction["category_id"]
             original_category_id = ""
             original_score = ""
-
+            color = species_color_mapping[category_id]
             if "original_category_id" in prediction:
                 original_category_id = prediction["original_category_id"]
                 original_score = prediction["original_score"]
+                color = species_color_mapping[category_id]
 
             score = prediction["score"]
             bbox = prediction["bbox"]
@@ -124,11 +154,38 @@ def plot_with_new_predictions(input_path, new_predictions, species_mapping):
             original_category_ids.append(original_category_id)
             original_scores.append(original_score)
 
-        # Load image
-        img = Image.open(img_path)
+        if gt_data[image_id]:
 
-        fig, ax = plt.subplots()
-        ax.imshow(img)
+            # Ground Truth boxes
+            for bbox in gt_data[image_id]:
+                print(bbox["bbox"])
+                category_id = bbox['class']
+                category_name = species_mapping.get(category_id, "Unknown")
+
+                bbox = convert_box(bbox['bbox'], img_width, img_height)
+
+                rect = patches.Rectangle(
+                    (bbox[0], bbox[1]),
+                    bbox[2],
+                    bbox[3],
+                    linewidth=5,
+                    edgecolor='g',
+                    alpha=0.5,
+                    label=f"GT: {category_name}",
+                    facecolor='none')
+
+                ax.add_patch(rect)
+
+                # Show class on plot
+                plt.text(
+                    bbox[0],  # + bbox[2] - 100,#-220,
+                    bbox[1] - 130,  # +bbox[3]+100,
+                    f"{category_name}",
+                    color="k",
+                    backgroundcolor="g",
+                    fontsize=10,
+                    alpha=0.8,
+                )
 
         # Predicted boxes
         for idx, bbox in enumerate(bboxes):
@@ -150,6 +207,7 @@ def plot_with_new_predictions(input_path, new_predictions, species_mapping):
                 bbox[2],
                 bbox[3],
                 linewidth=2,
+                edgecolor=color,
                 alpha=0.8,
                 facecolor='none',
                 label=label
@@ -164,18 +222,39 @@ def plot_with_new_predictions(input_path, new_predictions, species_mapping):
                 label,
                 alpha=0.8,
                 color="k",
-                fontsize=7,
+                fontsize=10,
+                backgroundcolor=color,
             )
 
-        # Set title
-        title = f"Path: {img_path}"  # \nClass: {category_name}"
-        ax.set_title(title)
+        # title = f"Path: {image_id}"  # \nClass: {category_name}"
+        # ax.set_title(title)
 
         ax.legend()
 
         # Show plot
         plt.axis("off")
         plt.show()
+        # savepath = r"C:\Users\kaiwe\Documents\Master\Semester 3\results/" + image_id
+        # plt.savefig(savepath, bbox_inches='tight')
+
+
+# Convert bbox from [xyxy] to [x1, y1, width, height]
+def convert_box(bbox, img_width, img_height):
+    x_center, y_center, width, height = bbox
+    x_min = (x_center - width / 2) * img_width
+    y_min = (y_center - height / 2) * img_height
+    width = width * img_width
+    height = height * img_height
+
+    return x_min, y_min, width, height
+
+
+def unique_imagesids_from_predictions(predictions_data):
+    unique_image_ids = []
+    [unique_image_ids.append(prediction["image_id"]) for prediction in predictions_data if
+     prediction["image_id"] not in unique_image_ids]
+
+    return unique_image_ids
 
 
 def load_predictions(json_file):
@@ -190,256 +269,25 @@ def load_predictions(json_file):
 
 # Load YOLO ground truth files
 def load_ground_truths(yolo_dir):
-    ground_truths = {}
-    for file in os.listdir(yolo_dir):
-        if file.endswith(".txt"):
-            image_id = file.replace(".txt", ".jpg")
-            with open(os.path.join(yolo_dir, file), 'r') as f:
-                lines = f.readlines()
-                boxes = [list(map(float, line.strip().split())) for line in lines]
-                ground_truths[image_id] = boxes
-    return ground_truths
-
-
-def bbox_iou(box1, box2, xywh=True, GIoU=False, DIoU=True, CIoU=True, eps=1e-7):
-    """
-    Calculate IoU between two bounding boxes.
-    Bounding boxes are expected to be in (x, y, width, height) format.
-    """
-
-    x1, y1, w1, h1 = box1
-    x2, y2, w2, h2 = box2
-
-    intersect_x1 = max(x1, x2)
-    intersect_y1 = max(y1, y2)
-    intersect_x2 = min(x1 + w1, x2 + w2)
-    intersect_y2 = min(y1 + h1, y2 + h2)
-
-    intersect_area = max((intersect_x2 - intersect_x1) * (intersect_y2 - intersect_y1), 0)
-    box1_area = w1 * h1
-    box2_area = w2 * h2
-
-    iou = intersect_area / float(box1_area + box2_area - intersect_area)
-
-    return iou
-
-
-def calculate_metrics(predictions, ground_truths, iou_threshold=0.5):
-    class_stats = defaultdict(lambda: {'TP': 0, 'FP': 0, 'FN': 0})
-
-    for pred in predictions:
-
-        image_id = pred["image_id"]
-        pred_bbox = pred["bbox"]
-        pred_category = pred["category_id"]
-        gt_bboxes = ground_truths.get(image_id, [])
-
-        matched = False
-        for gt_bbox in gt_bboxes:
-            gt_category, gt_xc, gt_yc, gt_w, gt_h = gt_bbox
-            gt_bbox = [gt_xc, gt_yc, gt_w, gt_h]
-
-            iou = bbox_iou(pred_bbox, gt_bbox)
-            if iou >= iou_threshold:
-                class_stats[pred_category]['TP'] += 1
-                matched = True
-                break
-
-        if not matched:
-            class_stats[pred_category]['FP'] += 1
-
-    # Calculate FN for each class
-    for image_id, gt_bboxes in ground_truths.items():
-        for gt_bbox in gt_bboxes:
-            gt_category = int(gt_bbox[0])
-            class_stats[gt_category]['FN'] += 1
-
-    for i in range(0, 16):
-        class_stats[i]['FN'] = class_stats[i]['FN'] - class_stats[i]['TP']
-
-
-    metrics = {}
-    for category, stats in class_stats.items():
-        TP, FP, FN = stats['TP'], stats['FP'], stats['FN']
-        precision = TP / (TP + FP) if (TP + FP) > 0 else 0
-        recall = TP / (TP + FN) if (TP + FN) > 0 else 0
-        metrics[category] = {'precision': precision, 'recall': recall}
-
-    # Calculate overall precision and recall
-    total_TP = sum(stats['TP'] for stats in class_stats.values())
-    total_FP = sum(stats['FP'] for stats in class_stats.values())
-    total_FN = sum(stats['FN'] for stats in class_stats.values())
-    print(total_TP, total_FP, total_FN)
-    overall_precision = total_TP / (total_TP + total_FP) if (total_TP + total_FP) > 0 else 0
-    overall_recall = total_TP / (total_TP + total_FN) if (total_TP + total_FN) > 0 else 0
-
-    print('##')
-    for stats in class_stats:
-        print(stats, class_stats[stats].values())
-    print('##')
-    return metrics, overall_precision, overall_recall
-
-
-def calculate_map(predictions, ground_truths):
-    iou_thresholds = np.linspace(0.5, 0.95, 10)
-    map_per_class = defaultdict(list)
-
-    for iou_threshold in iou_thresholds:
-        metrics, _, _ = calculate_metrics(predictions, ground_truths, iou_threshold)
-        for category, metric in metrics.items():
-            map_per_class[category].append(metric['precision'])
-
-    map50 = {category: precisions[0] for category, precisions in map_per_class.items()}  # mAP@50
-    map50_95 = {category: np.mean(precisions) for category, precisions in map_per_class.items()}  # mAP@50:95
-
-    # Calculate overall mAP50 and mAP50-95
-    overall_map50 = np.mean(list(map50.values()))
-    overall_map50_95 = np.mean(list(map50_95.values()))
-
-    return map50, map50_95, overall_map50, overall_map50_95
-
-
-# weights for [P, R, mAP@0.5, mAP@0.5:0.95] extracted from the YOLOv8 framework
-def calculate_fitness(precision, recall, map_50, map_50_95, weights=[0.0, 0.0, 0.1, 0.9]):
-    return weights[0] * precision + weights[1] * recall + weights[2] * map_50 + weights[3] * map_50_95
-
-
-def predict_with_hierarchical_classification(prediction_path, yolo_label_dir):
-    predictions = load_predictions(prediction_path)
-
-    print(len(predictions))
-    ground_truths = load_ground_truths(yolo_label_dir)
-    print(len(ground_truths))
-    # Calculate metrics
-    metrics_per_class, overall_precision, overall_recall = calculate_metrics(predictions, ground_truths)
-    map50, map50_95, overall_map50, overall_map50_95 = calculate_map(predictions, ground_truths)
-    # fitness = calculate_fitness(precision, recall, map50, map50_95)
-
-    map50 = sorted(map50.items())
-    map50_95 = sorted(map50_95.items())
-
-    counter = 0
-    for image in ground_truths:
-        counter += len(ground_truths.get(image, []))
-    print("###")
-    print(counter)
-
-    for category, metrics in sorted(metrics_per_class.items()):
-        print(f"Class {category} - Precision: {metrics['precision']}, Recall: {metrics['recall']}")
-
-    print(f"mAP@50 per class: {map50}")
-    print(f"mAP@50:95 per class: {map50_95}")
-
-    # Print overall results
-    print(f"Overall Precision: {overall_precision}")
-    print(f"Overall Recall: {overall_recall}")
-    print(f"Overall mAP@50: {overall_map50}")
-    print(f"Overall mAP@50:95: {overall_map50_95}")
-
-
-def smooth(y, f=0.05):
-    """Box filter of fraction f."""
-    nf = round(len(y) * f * 2) // 2 + 1  # number of filter elements (must be odd)
-    p = np.ones(nf // 2)  # ones padding
-    yp = np.concatenate((p * y[0], y, p * y[-1]), 0)  # y padded
-    return np.convolve(yp, np.ones(nf) / nf, mode="valid")  # y-smoothed
-
-
-def ap_per_class(
-    tp, conf, pred_cls, target_cls, plot=False, on_plot=None, names=(), eps=1e-16, prefix=""
-):
-    """
-    Computes the average precision per class for object detection evaluation.
-
-    Args:
-        tp (np.ndarray): Binary array indicating whether the detection is correct (True) or not (False).
-        conf (np.ndarray): Array of confidence scores of the detections.
-        pred_cls (np.ndarray): Array of predicted classes of the detections.
-        target_cls (np.ndarray): Array of true classes of the detections.
-        plot (bool, optional): Whether to plot PR curves or not. Defaults to False.
-        on_plot (func, optional): A callback to pass plots path and data when they are rendered. Defaults to None.
-        names (tuple, optional): Tuple of class names to plot PR curves. Defaults to an empty tuple.
-        eps (float, optional): A small value to avoid division by zero. Defaults to 1e-16.
-        prefix (str, optional): A prefix string for saving the plot files. Defaults to an empty string.
-
-    Returns:
-        (tuple): A tuple of six arrays and one array of unique classes, where:
-            tp (np.ndarray): True positive counts at threshold given by max F1 metric for each class.Shape: (nc,).
-            fp (np.ndarray): False positive counts at threshold given by max F1 metric for each class. Shape: (nc,).
-            p (np.ndarray): Precision values at threshold given by max F1 metric for each class. Shape: (nc,).
-            r (np.ndarray): Recall values at threshold given by max F1 metric for each class. Shape: (nc,).
-            f1 (np.ndarray): F1-score values at threshold given by max F1 metric for each class. Shape: (nc,).
-            ap (np.ndarray): Average precision for each class at different IoU thresholds. Shape: (nc, 10).
-            unique_classes (np.ndarray): An array of unique classes that have data. Shape: (nc,).
-            p_curve (np.ndarray): Precision curves for each class. Shape: (nc, 1000).
-            r_curve (np.ndarray): Recall curves for each class. Shape: (nc, 1000).
-            f1_curve (np.ndarray): F1-score curves for each class. Shape: (nc, 1000).
-            x (np.ndarray): X-axis values for the curves. Shape: (1000,).
-            prec_values: Precision values at mAP@0.5 for each class. Shape: (nc, 1000).
-    """
-
-    # Sort by objectness
-    i = np.argsort(-conf)
-    tp, conf, pred_cls = tp[i], conf[i], pred_cls[i]
-
-    # Find unique classes
-    unique_classes, nt = np.unique(target_cls, return_counts=True)
-    nc = unique_classes.shape[0]  # number of classes, number of detections
-
-    # Create Precision-Recall curve and compute AP for each class
-    x, prec_values = np.linspace(0, 1, 1000), []
-
-    # Average precision, precision and recall curves
-    ap, p_curve, r_curve = np.zeros((nc, tp.shape[1])), np.zeros((nc, 1000)), np.zeros((nc, 1000))
-    for ci, c in enumerate(unique_classes):
-        i = pred_cls == c
-        n_l = nt[ci]  # number of labels
-        n_p = i.sum()  # number of predictions
-        if n_p == 0 or n_l == 0:
-            continue
-
-        # Accumulate FPs and TPs
-        fpc = (1 - tp[i]).cumsum(0)
-        tpc = tp[i].cumsum(0)
-
-        # Recall
-        recall = tpc / (n_l + eps)  # recall curve
-        r_curve[ci] = np.interp(-x, -conf[i], recall[:, 0], left=0)  # negative x, xp because xp decreases
-
-        # Precision
-        precision = tpc / (tpc + fpc)  # precision curve
-        p_curve[ci] = np.interp(-x, -conf[i], precision[:, 0], left=1)  # p at pr_score
-
-        # AP from recall-precision curve
-        for j in range(tp.shape[1]):
-            ap[ci, j], mpre, mrec = compute_ap(recall[:, j], precision[:, j])
-            if plot and j == 0:
-                prec_values.append(np.interp(x, mrec, mpre))  # precision at mAP@0.5
-
-    prec_values = np.array(prec_values)  # (nc, 1000)
-
-    # Compute F1 (harmonic mean of precision and recall)
-    f1_curve = 2 * p_curve * r_curve / (p_curve + r_curve + eps)
-    names = [v for k, v in names.items() if k in unique_classes]  # list: only classes that have data
-    names = dict(enumerate(names))  # to dict
-
-    i = smooth(f1_curve.mean(0), 0.1).argmax()  # max F1 index
-    p, r, f1 = p_curve[:, i], r_curve[:, i], f1_curve[:, i]  # max-F1 precision, recall, F1 values
-    tp = (r * nt).round()  # true positives
-    fp = (tp / (p + eps) - tp).round()  # false positives
-    return tp, fp, p, r, f1, ap, unique_classes.astype(int), p_curve, r_curve, f1_curve, x, prec_values
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    labels_dict = {}
+
+    # Iterate over all files in the directory
+    for filename in os.listdir(yolo_dir):
+        if filename.endswith(".txt"):
+            file_path = os.path.join(yolo_dir, filename)
+
+            with open(file_path, 'r') as file:
+                # Read all lines from the file
+                lines = file.readlines()
+                labels = []
+                for line in lines:
+                    if line.strip():
+                        parts = line.strip().split()
+                        class_id = int(parts[0])
+                        bbox = [float(x) for x in parts[1:]]
+                        labels.append({"class": class_id, "bbox": bbox})
+
+                # Save the labels in the dictionary with the filename as the key
+                labels_dict[os.path.splitext(filename)[0] + '.jpg'] = labels
+
+    return labels_dict

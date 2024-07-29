@@ -7,10 +7,10 @@ threshold = 0.75
 predictions_file = "predictions.json"
 new_predictions_file = "new_predictions.json"
 
-calc_hierarchical_classification = False
-save_new_predictions = False
-plot_new_images = False
-print_results = True  # Only set true if you do have the new_predictions.json file
+calc_hierarchical_classification = True
+save_new_predictions = True
+plot_new_images = True
+print_results = False  # Only set true if you do have the new_predictions.json file
 
 
 # check config file
@@ -27,7 +27,8 @@ if calc_hierarchical_classification:
                                                       species_mapping=species_mapping,
                                                       family_mapping=family_mapping)
 else:
-    new_predictions = None
+    with open(new_predictions_file, 'r') as f:
+        new_predictions = json.load(f)
 
 
 # Save the modified predictions to a new JSON file
@@ -37,10 +38,10 @@ if save_new_predictions and new_predictions is not None:
 
 
 if plot_new_images and new_predictions is not None:
-    plot_with_new_predictions(img_path, new_predictions, species_mapping)
+    unique_image_ids = unique_imagesids_from_predictions(new_predictions)
+    random_unique_image_ids = unique_image_ids
+    random.shuffle(random_unique_image_ids)
+    random_unique_image_ids = ["sideRight_BLR-2018-05-09_12-50-30_sideRight_0009780.jpg", "frontFar_BLR-2018-04-19_17-16-55_frontFar_001464_r.jpg", "sideLeft_BLR-2018-05-08_10-11-11_sideLeft_000936_r.jpg"]
+    plot_n_images_from_imageids_list(random_unique_image_ids, new_predictions, species_mapping, img_path, label_path)
 
 
-if print_results and label_path != '':
-    predict_with_hierarchical_classification(new_predictions_file, label_path)
-elif label_path == '':
-    print('No label directory!')
