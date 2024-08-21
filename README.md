@@ -73,7 +73,7 @@ Check the directory [Weighted BCE Loss](https://github.com/kai-weiss/AACVProject
   class_weights = torch.tensor([1.00, 1.00, 1.00, 1.00, 1.00, 1.00, 1.00, 2.00, 2.00, 2.00], dtype=torch.float16).to(device)
   self.bce = nn.BCEWithLogitsLoss(pos_weight=class_weights, reduction="none")
 
-* Use the .yaml file provided. You can change the path as per your dataset path.
+* Use the [.yaml file](https://github.com/kai-weiss/AACVProject/blob/master/Weighted%20BCE%20Loss/data/idd_data.yaml) provided. You can change the path as per your dataset path.
 
 * After the above changes, run [Weighted BCE Loss/weightedbce_main.py](https://github.com/kai-weiss/AACVProject/blob/master/Weighted%20BCE%20Loss/weightedbce_main.py). Currently the iou threshold is set to 0.5. We experimented with the values 0.7 and 0.5 for the iou threshold.
 ```python
@@ -90,9 +90,18 @@ Out of the three experiments, lenient weights with lowert iou threshold (0.5) pe
 
 Here we present the code for the approach described in Section **4.3** of our paper.
 
-Check the directory [Focal Loss](https://github.com/kai-weiss/AACVProject/tree/master/Ensemble%20Learning) for the code.
+Check the directory [Focal Loss](https://github.com/kai-weiss/AACVProject/tree/master/Focal%20Loss) for the code.
 
-(TODO - add what files must be run for the code)
+* Please use ultralytics (version=8.2.28) library
+  ```python
+  pip install ultralytics==8.2.28
+
+* Go to site packages in your IDE, and replace the ultralytics\utils\loss.py file with [Focal Loss/loss.py](https://github.com/kai-weiss/AACVProject/blob/master/Focal%20Loss/loss.py) file. 
+
+* Use the [.yaml file](https://github.com/kai-weiss/AACVProject/blob/master/Focal%20Loss/data/idd_data.yaml) provided. You can change the path as per your dataset path.
+
+* After the above changes, run [Focal Loss/focalloss_main.py](https://github.com/kai-weiss/AACVProject/blob/master/Focal%20Loss/focalloss_main.py).
+
 (TODO - add the confusion matrices)
 
 The results of this approach have been described in Section **5.3** of our paper.
