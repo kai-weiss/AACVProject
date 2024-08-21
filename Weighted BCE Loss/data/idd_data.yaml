@@ -1,0 +1,18 @@
+path: /kaggle/input/idddtataset/shrunk
+
+train: train/images
+val: val/images
+
+#Classes
+nc: 10
+names:
+  0: car
+  1: bus
+  2: autorickshaw
+  3: truck
+  4: motorcycle
+  5: rider
+  6: person
+  7: bicycle
+  8: traffic sign
+  9: traffic light
