@@ -52,7 +52,7 @@ def iou(box1, box2):
     return inter_area / float(box1_area + box2_area - inter_area)
 
 
-def ensemble_predictions(results1, results2, iou_threshold=0.5):
+def ensemble_predictions(results1, results2, iou_threshold=0.6):
     """
     Function to merge the predictions from both models
     :param results1: always the predictions from the bigger model
