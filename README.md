@@ -65,15 +65,13 @@ If wanted, results will be safed as "new_predictions.json". Optionally, you can 
 https://wandb.ai/kaiweiss0/projects
 
 ## 5. Ensemble Learning
-Check the directory 'Ensemble Learning'. 
 
-Use the custom_val.py file to ensemble the predictions. 
+Here we present the code for Approach 4.5.1 detailed in our paper.
 
-Please note, this .py file assumes that model1 is the bigger model, and model2 is the smaller model (use .pt weights accordingly). 
+Check the directory [Ensemble Learning](https://github.com/kai-weiss/AACVProject/tree/master/Ensemble%20Learning) for the code. 
 
-Replace the val.py in your 'ultralytics\models\yolo\detect\val.py' with the val.py from this repo.
+* The weights for the larger general model and specialized helper model are available as .pt files in [Ensemble Learning/ensemble_models](https://github.com/kai-weiss/AACVProject/tree/master/Ensemble%20Learning/ensemble_models). Use these .pt files to initialize the models in [Ensemble Learning/custom_val.py](https://github.com/kai-weiss/AACVProject/blob/master/Ensemble%20Learning/custom_val.py) file. Please note, this .py file assumes that model1 is the bigger model, and model2 is the smaller model (hence, use .pt weights accordingly). Simply run this .py file to get the evaluation metrics for the ensemble. 
 
-Replace the validator.py in your 'ultralytics\engine\validator.py' with the validator.py from this repo.
+* No changes need to be made to the files [Ensemble Learning/ensemble_learning.py](https://github.com/kai-weiss/AACVProject/blob/master/Ensemble%20Learning/ensemble_learning.py) and [Ensemble Learning/custom_validator.py](https://github.com/kai-weiss/AACVProject/blob/master/Ensemble%20Learning/custom_validator.py) The former .py file ensembles the prediction results from the two models of the ensemble. The latter .py file makes changes to YOLOv8's BaseValidator to generate the evaluation results for the ensemble. 
 
-
-Work in progress: setting up custom conf and iou thresholds. 
+* Please use ultralytics (version=8.2.28) library as it is. 
