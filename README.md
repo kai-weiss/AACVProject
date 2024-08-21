@@ -68,6 +68,15 @@ The results of this approach have been described in Section **5.2** of our paper
 
 ## 3. YOLOv8 + Focal Loss
 
+Here we present the code for the approach described in Section **4.3** of our paper.
+
+Check the directory [Focal Loss](https://github.com/kai-weiss/AACVProject/tree/master/Ensemble%20Learning) for the code.
+
+(TODO - add what files must be run for the code)
+(TODO - add the confusion matrices)
+
+The results of this approach have been described in Section **5.3** of our paper.
+
 ## 4. YOLOv8 + Hierarchical Classification
 
 First, run [predict_with_extraction_main.py](YOLOv8%2FHierarchical_classification%2Fpredict_with_extraction_main.py) to receive the original predictions.
