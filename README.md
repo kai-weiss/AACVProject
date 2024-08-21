@@ -59,9 +59,22 @@ We conducted the following three experiments using different weights for the min
 
 ![image](https://github.com/user-attachments/assets/9b7fd51e-0e10-41c2-b4fd-4f829f825a15)
 
-Check the directory [Weighted BCE Loss](https://github.com/kai-weiss/AACVProject/tree/master/Ensemble%20Learning) for the code.
+Check the directory [Weighted BCE Loss](https://github.com/kai-weiss/AACVProject/blob/master/Weighted%20BCE%20Loss) for the code.
 
-(TODO - add what files must be run for the code)
+* Please use ultralytics (version=8.2.28) library
+  ```python
+  pip install ultralytics==8.2.28  
+
+* Go to site packages in your IDE, and replace the ultralytics\utils\loss.py file with [Weighted BCE Loss/loss.py](https://github.com/kai-weiss/AACVProject/blob/master/Weighted%20BCE%20Loss/loss.py) file. Currently, the class-wise weights are set to lenient. Please check the code snippet (line 165-171) and use the weights you require.
+  ```python
+  class_weights = torch.tensor([1.00, 1.00, 1.00, 1.00, 1.00, 1.00, 1.00, 2.00, 2.00, 2.00], dtype=torch.float16).to(device)
+  self.bce = nn.BCEWithLogitsLoss(pos_weight=class_weights, reduction="none")
+
+* After the above changes, run [Weighted BCE Loss/weightedbce_main.py](https://github.com/kai-weiss/AACVProject/blob/master/Weighted%20BCE%20Loss/weightedbce_main.py). Currently the iou threshold is set to 0.5. We experimented with the values 0.7 and 0.5 for the iou threshold.
+```python
+results = model.train(data="/data/idd_data.yaml", epochs=200, iou=0.5)
+```
+
 (TODO - add the confusion matrices)
 
 The results of this approach have been described in Section **5.2** of our paper.
