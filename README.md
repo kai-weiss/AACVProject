@@ -65,8 +65,11 @@ Check the directory [Weighted BCE Loss](https://github.com/kai-weiss/AACVProject
   ```python
   pip install ultralytics==8.2.28  
 
-* Go to site packages in your IDE, and replace the ultralytics\utils\loss.py file with [Weighted BCE Loss/loss.py](https://github.com/kai-weiss/AACVProject/blob/master/Weighted%20BCE%20Loss/loss.py) file. Currently, the class-wise weights are set to lenient. Please check the code snippet (line 165-171) and use the weights you require.
+* Go to site packages in your IDE, and replace the ultralytics\utils\loss.py file with [Weighted BCE Loss/loss.py](https://github.com/kai-weiss/AACVProject/blob/master/Weighted%20BCE%20Loss/loss.py) file. Currently, the class-wise weights are set to lenient. Please check the code snippet (line 165-171 in the .py file) and use the weights you require.
   ```python
+  # strict class weights
+  # class_weights = torch.tensor([0.50, 1.00, 1.00, 1.00, 0.50, 0.50, 0.50, 2.00, 2.00, 2.00], dtype=torch.float16).to(device)
+  # lenient class weights
   class_weights = torch.tensor([1.00, 1.00, 1.00, 1.00, 1.00, 1.00, 1.00, 2.00, 2.00, 2.00], dtype=torch.float16).to(device)
   self.bce = nn.BCEWithLogitsLoss(pos_weight=class_weights, reduction="none")
 
