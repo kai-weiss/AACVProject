@@ -73,6 +73,8 @@ Check the directory [Weighted BCE Loss](https://github.com/kai-weiss/AACVProject
   class_weights = torch.tensor([1.00, 1.00, 1.00, 1.00, 1.00, 1.00, 1.00, 2.00, 2.00, 2.00], dtype=torch.float16).to(device)
   self.bce = nn.BCEWithLogitsLoss(pos_weight=class_weights, reduction="none")
 
+* Use the .yaml file provided. You can change the path as per your dataset path.
+
 * After the above changes, run [Weighted BCE Loss/weightedbce_main.py](https://github.com/kai-weiss/AACVProject/blob/master/Weighted%20BCE%20Loss/weightedbce_main.py). Currently the iou threshold is set to 0.5. We experimented with the values 0.7 and 0.5 for the iou threshold.
 ```python
 results = model.train(data="/data/idd_data.yaml", epochs=200, iou=0.5)
