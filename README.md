@@ -132,3 +132,13 @@ Check the directory [Ensemble Learning](https://github.com/kai-weiss/AACVProject
 (TODO - add the confusion matrices)
 
 The results of this approach have been described in Section **5.5.1** of our paper.
+
+## RESULTS
+
+### Results: all classes (average of all classes)
+
+![image](https://github.com/user-attachments/assets/82f601f9-aafa-4128-848c-a546449d89fc)
+
+### Results: minority classes 
+
+![image](https://github.com/user-attachments/assets/ad4d669c-9251-4834-9971-0bd9b260765d)
