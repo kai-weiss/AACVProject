@@ -82,6 +82,8 @@ results = model.train(data="/data/idd_data.yaml", epochs=200, iou=0.5)
 
 The results of this approach have been described in Section **5.2** of our paper.
 
+Out of the three experiments, lenient weights with lowert iou threshold (0.5) performed the best.
+
 ## 3. YOLOv8 + Focal Loss
 
 Here we present the code for the approach described in Section **4.3** of our paper.
