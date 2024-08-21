@@ -6,7 +6,7 @@ def main():
     model = YOLO("yolov8s.pt")
     
     # Train the model
-    results = model.train(data="/data/idd_data.yaml", epochs=200, iou=0.5)
+    results = model.train(data="/data/idd_data.yaml", epochs=200)
     
     # Validate the model and print metrics
     metrics = model.val()
