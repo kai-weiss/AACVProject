@@ -48,6 +48,9 @@ Example Test result (shrunk dataset!):
 ![First video result](Results/YOLOv8/video1.gif)
 
 ## 2. YOLOv8 + Weighted BCE Loss
+
+Here 
+
 ### 2.a. Strict Weights and default IOU threshold during training
 ### 2.b. Lenient Weights and lower IOU threshold during training
 
@@ -66,7 +69,7 @@ https://wandb.ai/kaiweiss0/projects
 
 ## 5. Ensemble Learning
 
-Here we present the code for Approach 4.5.1 detailed in our paper.
+Here we present the code for the approach described in Section **4.5.1** of our paper.
 
 Check the directory [Ensemble Learning](https://github.com/kai-weiss/AACVProject/tree/master/Ensemble%20Learning) for the code. 
 
@@ -75,3 +78,5 @@ Check the directory [Ensemble Learning](https://github.com/kai-weiss/AACVProject
 * No changes need to be made to the files [Ensemble Learning/ensemble_learning.py](https://github.com/kai-weiss/AACVProject/blob/master/Ensemble%20Learning/ensemble_learning.py) and [Ensemble Learning/custom_validator.py](https://github.com/kai-weiss/AACVProject/blob/master/Ensemble%20Learning/custom_validator.py) The former .py file ensembles the prediction results from the two models of the ensemble. The latter .py file makes changes to YOLOv8's BaseValidator to generate the evaluation results for the ensemble. 
 
 * Please use ultralytics (version=8.2.28) library as it is. 
+
+The results of this approach have been described in Section **5.5.1** of our paper.
