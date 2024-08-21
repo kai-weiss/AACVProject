@@ -49,10 +49,22 @@ Example Test result (shrunk dataset!):
 
 ## 2. YOLOv8 + Weighted BCE Loss
 
-Here 
+Here we present the code for the approach described in Section **4.2** of our paper.
 
-### 2.a. Strict Weights and default IOU threshold during training
-### 2.b. Lenient Weights and lower IOU threshold during training
+We conducted the following three experiments using different weights for the minority, moderate, and majority classes, along with varying the IoU thresholds for NMS:
+
+* Strict class weights and higher IoU threshold (0.7)
+* Lenient class weights and higher IoU threshold (0.7)
+* Lenient class weights and lower IoU threshold (0.5)
+
+![image](https://github.com/user-attachments/assets/9b7fd51e-0e10-41c2-b4fd-4f829f825a15)
+
+Check the directory [Weighted BCE Loss](https://github.com/kai-weiss/AACVProject/tree/master/Ensemble%20Learning) for the code.
+
+(TODO - add what files must be run for the code)
+(TODO - add the confusion matrices)
+
+The results of this approach have been described in Section **5.2** of our paper.
 
 ## 3. YOLOv8 + Focal Loss
 
@@ -78,5 +90,7 @@ Check the directory [Ensemble Learning](https://github.com/kai-weiss/AACVProject
 * No changes need to be made to the files [Ensemble Learning/ensemble_learning.py](https://github.com/kai-weiss/AACVProject/blob/master/Ensemble%20Learning/ensemble_learning.py) and [Ensemble Learning/custom_validator.py](https://github.com/kai-weiss/AACVProject/blob/master/Ensemble%20Learning/custom_validator.py) The former .py file ensembles the prediction results from the two models of the ensemble. The latter .py file makes changes to YOLOv8's BaseValidator to generate the evaluation results for the ensemble. 
 
 * Please use ultralytics (version=8.2.28) library as it is. 
+
+(TODO - add the confusion matrices)
 
 The results of this approach have been described in Section **5.5.1** of our paper.
