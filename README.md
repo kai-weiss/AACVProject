@@ -82,8 +82,6 @@ Check the directory [Weighted BCE Loss](https://github.com/kai-weiss/AACVProject
 results = model.train(data="/data/idd_data.yaml", epochs=200, iou=0.5)
 ```
 
-(TODO - add the confusion matrices)
-
 The results of this approach have been described in Section **5.2** of our paper.
 
 Out of the three experiments, lenient weights with lower iou threshold (0.5) performed the best.
@@ -129,8 +127,6 @@ Check the directory [Ensemble Learning](https://github.com/kai-weiss/AACVProject
 
 * Please use ultralytics (version=8.2.28) library as it is. 
 
-(TODO - add the confusion matrices)
-
 The results of this approach have been described in Section **5.5.1** of our paper.
 
 ## RESULTS: Evaluation Metrics:
@@ -149,11 +145,14 @@ The results of this approach have been described in Section **5.5.1** of our pap
 
 <img width="688" alt="plainYOLO" src="https://github.com/user-attachments/assets/2c778b03-5bb5-4a2c-84a5-5506228891d5">
 
+
 **2. YOLOv8 + Weighted BCE**
 
 * Strict class weights and higher IoU threshold (0.7)
+![image](https://github.com/user-attachments/assets/e02a8ce8-4c0a-4ba9-a777-cec2cba015e9)
 
 * Lenient class weights and higher IoU threshold (0.7)
+![image](https://github.com/user-attachments/assets/088c8ed3-0d3c-4ac9-9db4-129c4b2e1e8c)
 
 * Lenient class weights and lower IoU threshold (0.5)
 ![image](https://github.com/user-attachments/assets/0eb6a348-fd5c-4974-bc6a-b264328ac8fd)
@@ -162,9 +161,9 @@ The results of this approach have been described in Section **5.5.1** of our pap
 **3. YOLOv8 + Focal Loss**
 ![focalloss](https://github.com/user-attachments/assets/8ee8d066-8e5c-45a2-bec2-c8d7d4307a61)
 
+
 **4. YOLOv8 + Hierarchical Classification**
 
 
 **5. YOLOv8 + Ensemble Learning**
 ![confusion_matrix](https://github.com/user-attachments/assets/b767b97c-14a5-402b-b09b-15cc548b08a1)
-
