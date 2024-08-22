@@ -104,9 +104,6 @@ Check the directory [Focal Loss](https://github.com/kai-weiss/AACVProject/tree/m
 
 * After the above changes, run [Focal Loss/focalloss_main.py](https://github.com/kai-weiss/AACVProject/blob/master/Focal%20Loss/focalloss_main.py).
 
-Confusion Matrix:
-![focalloss](https://github.com/user-attachments/assets/6cf5a9ea-ae84-4a32-ae76-dec5ffcd126b)
-
 The results of this approach have been described in Section **5.3** of our paper.
 
 ## 4. YOLOv8 + Hierarchical Classification
@@ -120,7 +117,7 @@ If wanted, results will be safed as "new_predictions.json". Optionally, you can 
 ### 4.1 View any live run that you started on Kaggle:
 https://wandb.ai/kaiweiss0/projects
 
-## 5. Ensemble Learning
+## 5. YOLOv8 + Ensemble Learning
 
 Here we present the code for the approach described in Section **4.5.1** of our paper.
 
@@ -136,7 +133,7 @@ Check the directory [Ensemble Learning](https://github.com/kai-weiss/AACVProject
 
 The results of this approach have been described in Section **5.5.1** of our paper.
 
-## RESULTS
+## RESULTS: Evaluation Metrics:
 
 ### Results: all classes (average of all classes)
 
@@ -145,3 +142,20 @@ The results of this approach have been described in Section **5.5.1** of our pap
 ### Results: minority classes 
 
 ![image](https://github.com/user-attachments/assets/ad4d669c-9251-4834-9971-0bd9b260765d)
+
+## RESULTS: Confusion Matrices
+
+**1. YOLOv8**
+
+
+**2. YOLOv8 + Weighted BCE**
+
+
+**3. YOLOv8 + Focal Loss**
+![focalloss](https://github.com/user-attachments/assets/8ee8d066-8e5c-45a2-bec2-c8d7d4307a61)
+
+**4. YOLOv8 + Hierarchical Classification**
+
+
+**5. YOLOv8 + Ensemble Learning**
+
