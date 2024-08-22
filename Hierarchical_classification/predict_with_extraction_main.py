@@ -5,7 +5,7 @@ from predict_with_extraction import *
 model_path = 'best.pt'
 
 # check config file
-with open('../config.yaml', 'r') as f:
+with open('../YOLOv8/config.yaml', 'r') as f:
     config = yaml.safe_load(f)
     img_path = config['path'] + '/' + config['val'] + '/images'
     category_mapping = config['names']
@@ -29,4 +29,3 @@ for result in results:
     print("Activations :" + str(result['activations']))
     print("\n")
 
-# plot_image(img_path, results)

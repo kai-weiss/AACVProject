@@ -1,8 +1,6 @@
-import warnings
 from pathlib import Path
 
 import torch
-import os
 from ultralytics.cfg import get_cfg, get_save_dir
 from ultralytics.engine.validator import BaseValidator
 from ultralytics.models.yolo.detect import DetectionValidator
@@ -126,7 +124,7 @@ class CustomDetectionValidator(CustomBaseValidator, DetectionValidator):
 
             if self.custom_predictions:
                 predn_conf, predn_cls, new_length = use_custom_predictions(self.custom_predictions, current_file,
-                                                                           predn[:, 4], predn[:, 5], cls)
+                                                                           predn[:, 4], predn[:, 5])
 
                 if new_length != -1:
                     predn = predn[:new_length, :]

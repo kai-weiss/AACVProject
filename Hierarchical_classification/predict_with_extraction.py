@@ -310,7 +310,8 @@ def results_predict(img_path, model, hooks, threshold=0.5, iou=0.7, softmax_temp
 def run_predict(input_path, model_path, score_threshold=0.5, iou_threshold=0.7, save_image=False, save_json=False,
                 category_mapping=None, softmax_temperature_value=1.0, agnostic=False):
     """
-    Run prediction with a YOLO model.
+    Run prediction with a YOLO model. Based on:
+    https://github.com/CV4EcologySchool/yolo-hacks/blob/main/predict_with_logits.py
 
     Args:
         input_path (str): Path to an image directory (like the test dataset).

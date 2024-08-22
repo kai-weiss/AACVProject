@@ -4,7 +4,7 @@ import torch
 from ultralytics import YOLO
 
 import ensemble_learning
-from custom_validator import CustomDetectionValidator
+from Hierarchical_classification.custom_validator import CustomDetectionValidator
 
 
 def sort_results_by_confidence(results):

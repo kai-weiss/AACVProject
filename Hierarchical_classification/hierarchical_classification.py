@@ -1,42 +1,10 @@
 import math
 import os
 
-import pandas as pd
 import matplotlib.pyplot as plt
 import matplotlib.patches as patches
 from PIL import Image
-import random
 import json
-from collections import defaultdict
-import numpy as np
-import torch
-from torch import inf, SymInt, Tensor
-from ultralytics.utils.metrics import compute_ap
-import math
-import warnings
-from pathlib import Path
-import torch
-
-from ultralytics.utils import LOGGER, SimpleClass, TryExcept, plt_settings
-
-species_color_mapping = {
-    0: "#FCF7FF",
-    1: "#FF924C",
-    2: "#E85155",
-    3: "#FFCA3A",
-    4: "#4267AC",
-    5: '#8AC926',
-    6: '#A64692',
-    7: "#6A4C93",
-    8: "#A1E8CC",
-    9: "#4B4237",
-    10: '#C5CA30',
-    11: "#41D3BD",
-    12: '#E067A7',
-    13: "#FF595E",
-    14: "#BFD7EA",
-    15: "#e197f0",
-}
 
 
 # Create the inverted dictionaries
@@ -56,18 +24,16 @@ def prepare_dictionaries(species_mapping, family_mapping):
 
 def run_hierarchical_classification(predictions_file, hier_threshold, species_mapping, family_mapping, universal=False):
     """
-    Run the hierarchical classification algorithm.
+    Run the hierarchical classification algorithm. Based on:
+    https://github.com/GrunCrow/cv4ecology_IberianMammalDetectorClassifier/blob/main/AI_Census/Hierarchical%20Model/c_Hierarchical_Classification.ipynb
 
-    For validation, we have to do a workaround:
-    YOLOv8 sadly does not support multi-label classification (yet). So the idea is to set every specific class to the
-    most general family classes (so either Non-driv., Living things or Vehicle, please compare with the hierarchical
-    classification tree). With that, we use modified label annotations
-    that also only contain the most general family classes, which makes a comparison finally possible. Keep in mind
-    that we still keep the confidence scores with the actual classes that reaches 0.75!
+    For validation, we have to do a workaround: YOLOv8 sadly does not support multi-label classification (yet). So
+    the idea is to set every specific class to the the according general family classes (see hierarchical
+    classification tree in the paper for reference). With that, the validation is now made .
 
     Args:
         predictions_file (str): Path to an image directory (like the test dataset).
-        hier_threshold (float):
+        hier_threshold (float): Threshold that determines the family class for a specific class
         species_mapping (any): List of all classes.
         family_mapping (any): List of all family relations.
         universal (bool, optional): Set False for Selective Hierarchical Classification. Set True for
@@ -175,11 +141,10 @@ def plot_n_images_from_imageids_list(image_id_list, new_predictions, species_map
             category_id = prediction["category_id"]
             original_category_id = ""
             original_score = ""
-            color = species_color_mapping[category_id]
+
             if "original_category_id" in prediction:
                 original_category_id = prediction["original_category_id"]
                 original_score = prediction["original_score"]
-                color = species_color_mapping[category_id]
 
             score = prediction["score"]
             bbox = prediction["bbox"]
@@ -244,7 +209,6 @@ def plot_n_images_from_imageids_list(image_id_list, new_predictions, species_map
                 bbox[2],
                 bbox[3],
                 linewidth=2,
-                edgecolor=color,
                 alpha=0.8,
                 facecolor='none',
                 label=label
@@ -259,8 +223,7 @@ def plot_n_images_from_imageids_list(image_id_list, new_predictions, species_map
                 label,
                 alpha=0.8,
                 color="k",
-                fontsize=10,
-                backgroundcolor=color,
+                fontsize=10
             )
 
         # title = f"Path: {image_id}"  # \nClass: {category_name}"
