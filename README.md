@@ -23,7 +23,7 @@ Here we present the code for the approach described in Section **4.1** of our pa
 ### 1.2.2 How to train the model on Kaggle
 - Go to https://www.kaggle.com/code/kaiweiss/aacv-project/edit
 - Click on the 'Save Version' button and let it run
-- See results in https://www.kaggle.com/code/kaiweiss/aacv-project/output
+- See results at https://www.kaggle.com/code/kaiweiss/aacv-project/output
 - View any live run that you started on Kaggle: https://wandb.ai/kaiweiss0/projects
 
 ### 1.3 How to validate the model
@@ -54,7 +54,7 @@ We conducted the following three experiments using different weights for the min
 
 Check the directory [Weighted BCE Loss](https://github.com/kai-weiss/AACVProject/blob/master/Weighted%20BCE%20Loss) for the code.
 
-* Please make sure that you followed the installation steps in [1.1](#11-Installation).
+* Please follow the installation steps in [1.1](#11-Installation).
 
 * Go to site packages in your IDE, and replace the ultralytics\utils\loss.py file with [Weighted BCE Loss/loss.py](https://github.com/kai-weiss/AACVProject/blob/master/Weighted%20BCE%20Loss/loss.py) file. Currently, the class-wise weights are set to lenient. Please check the code snippet (line 165-171 in the .py file) and use the weights you require.
   ```python
@@ -81,7 +81,7 @@ Here we present the code for the approach described in Section **4.3** of our pa
 
 Check the directory [Focal Loss](https://github.com/kai-weiss/AACVProject/tree/master/Focal%20Loss) for the code.
 
-* Please make sure that you followed the installation steps in [1.1](#11-Installation).
+* Please follow the installation steps in [1.1](#11-Installation).
 
 * Go to site packages in your IDE, and replace the ultralytics\utils\loss.py file with [Focal Loss/loss.py](https://github.com/kai-weiss/AACVProject/blob/master/Focal%20Loss/loss.py) file. 
 
@@ -93,16 +93,18 @@ The results of this approach have been described in Section **5.3** of our paper
 
 ## 4. YOLOv8 + Hierarchical Classification
 
-* Please make sure that you followed the installation steps in [1.1](#11-Installation).
+Here we present the code for the approach described in Section **4.4** of our paper.
+
+* Please follow the installation steps in [1.1](#11-Installation).
 
 * Run [predict_with_extraction_main.py](YOLOv8%2FHierarchical_classification%2Fpredict_with_extraction_main.py) to receive the original predictions.
-Make sure that `save_json=True`. Be aware that, for now, the script is configured to run on the val datset (check [config.yaml](YOLOv8%2Fconfig.yaml)).
+Make sure that `save_json=True`. Be aware that, for now, the script is configured to run on the val dataset (check [config.yaml](YOLOv8%2Fconfig.yaml)).
 
-* Afterwards, run [hierarchical_classification_main.py](YOLOv8%2FHierarchical_classification%2Fhierarchical_classification_main.py) to get the new calculated predictions. There are several boolean variables that can be set here:
+* Afterwards, run [hierarchical_classification_main.py](YOLOv8%2FHierarchical_classification%2Fhierarchical_classification_main.py) to get the new calculated predictions. Several boolean variables can be set here:
   * `calc_hierarchical_classification = True`: Runs the hierarchical classification algorithm.
-  * `save_new_predictions = True`: Save the results to .json file.
-  * `plot_new_images = True`: Plot the new predicions on the images. Make sure you enter the images you want in `unique_image_ids`. 
-  * `validate_hier_classification = True`: Do the validation with the new predictions.
+  * `save_new_predictions = True`: Save the results to a .json file.
+  * `plot_new_images = True`: Plot the new predictions on the images. Make sure you enter the images you want in `unique_image_ids`. 
+  * `validate_hier_classification = True`: Validate with the new predictions.
 
 The results of this approach have been described in Section **5.4** of our paper.
 
@@ -112,7 +114,7 @@ Here we present the code for the approach described in Section **4.5.1** of our 
 
 Check the directory [Ensemble Learning](https://github.com/kai-weiss/AACVProject/tree/master/Ensemble%20Learning) for the code. 
 
-* Please make sure that you followed the installation steps in [1.1](#11-Installation).
+* Please follow the installation steps in [1.1](#11-Installation).
 
 * The weights for the larger general model and specialized helper model are available as .pt files in [Ensemble Learning/ensemble_models](https://github.com/kai-weiss/AACVProject/tree/master/Ensemble%20Learning/ensemble_models). Use these .pt files to initialize the models in [Ensemble Learning/custom_val.py](https://github.com/kai-weiss/AACVProject/blob/master/Ensemble%20Learning/custom_val.py) file. Please note, this .py file assumes that model1 is the bigger model, and model2 is the smaller model (hence, use .pt weights accordingly). Simply run this .py file to get the evaluation metrics for the ensemble. 
 
