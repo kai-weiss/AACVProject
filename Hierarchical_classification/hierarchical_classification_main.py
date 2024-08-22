@@ -16,7 +16,7 @@ new_predictions_file = "universal_hierarchical_predictions.json"
 calc_hierarchical_classification = True
 save_new_predictions = True
 plot_new_images = False
-validatie_hierarchical_classification = False
+validate_hier_classification = False
 
 
 # Images that you want to plot over
@@ -58,7 +58,7 @@ if plot_new_images and new_predictions is not None:
 
 
 # Validation
-if validatie_hierarchical_classification and new_predictions is not None:
+if validate_hier_classification and new_predictions is not None:
     results = validate_hierarchical_classification(predictions_file=predictions_file,
                                                    label_path=label_path)
     print(results)

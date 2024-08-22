@@ -10,43 +10,35 @@ cd AACVProject/YOLOv8
 pip install -r requirements.txt
 ```
 
-## 1.2 Training
+## 1.2 Experiment
+Here we present the code for the approach described in Section **4.1** of our paper.
 ### 1.2.1 How to train the model locally
-- Download the dataset under https://kaggle.com/datasets/fcd636ded04af634ec210e3a5316c42837e2220cb794a84e31fae2808e565f8a
+- Download the dataset under https://kaggle.com/datasets/fcd636ded04af634ec210e3a5316c42837e2220cb794a84e31fae2808e565f8a \
   (Old dataset with 15 classes: https://kaggle.com/datasets/0a201d5cb8eba5c1a719be8d390f5af4b93aa7a4057db962afbb4b08fb5183ec )
-- Under ..\AACVProject\YOLOv8\config.yaml: Modify the path to the path of your downloaded dataset
-- run ..\AACVProject\YOLOv8\train.py
-- See results in ..\AACVProject\YOLOv8\run\train
+- Under [config.yaml](YOLOv8%2Fconfig.yaml): Modify the path to the path of your downloaded dataset
+- Run [train.py](https://github.com/kai-weiss/AACVProject/blob/master/YOLOv8/train.py). 
+- See results in [runs](https://github.com/kai-weiss/AACVProject/tree/master/YOLOv8/runs).
+
 
 ### 1.2.2 How to train the model on Kaggle
 - Go to https://www.kaggle.com/code/kaiweiss/aacv-project/edit
 - Click on the 'Save Version' button and let it run
 - See results in https://www.kaggle.com/code/kaiweiss/aacv-project/output
+- View any live run that you started on Kaggle: https://wandb.ai/kaiweiss0/projects
 
 ### 1.3 How to validate the model
-- Make sure the path to your downloaded dataset in config.yaml is correct (see 1.2.1)
-- run ..\AACVProject\YOLOv8\validate.py
-- See results in ..\AACVProject\YOLOv8\run\val
+- Make sure the path to your downloaded dataset in config.yaml is correct (see [1.2.1](#121-how-to-train-the-model-locally))
+
+- Run [validate.py](https://github.com/kai-weiss/AACVProject/blob/master/YOLOv8/validate.py).
+- See results in [runs](https://github.com/kai-weiss/AACVProject/tree/master/YOLOv8/runs).
 
 ### 1.4 How to test the model
-- Make sure the path to your downloaded dataset in config.yaml is correct (see 1.2.1)
+- Make sure the path to your downloaded dataset in config.yaml is correct (see [1.2.1](#121-how-to-train-the-model-locally))
 - Hint: It's possible to run this script for videos and images
-- run ..\AACVProject\YOLOv8\predict.py
-- See results in ..\AACVProject\YOLOv8\run\predict
+- Run [predict.py](https://github.com/kai-weiss/AACVProject/blob/master/YOLOv8/predict.py). 
+- See results in [runs](https://github.com/kai-weiss/AACVProject/tree/master/YOLOv8/runs).
 
-### 1.5 Results
-
-Validation results for YOLOv8 (shrunk dataset!):
-
-'metrics/precision(B)': 0.5814474585650324  
-'metrics/recall(B)': 0.361319506335979  
-'metrics/mAP50(B)': 0.38595999973569306  
-'metrics/mAP50-95(B)': 0.24080287991266427  
-'fitness': 0.25531859189496714
-
-Example Test result (shrunk dataset!):
-
-![First image test result](Results/YOLOv8/frontFar_BLR-2018-04-16_15-34-27_frontFar_0002580.jpg)
+The results of this approach have been described in Section **5.1** of our paper.
 
 ## 2. YOLOv8 + Weighted BCE Loss
 
@@ -62,9 +54,7 @@ We conducted the following three experiments using different weights for the min
 
 Check the directory [Weighted BCE Loss](https://github.com/kai-weiss/AACVProject/blob/master/Weighted%20BCE%20Loss) for the code.
 
-* Please use ultralytics (version=8.2.28) library
-  ```python
-  pip install ultralytics==8.2.28  
+* Please make sure that you followed the installation steps in [1.1](#11-Installation).
 
 * Go to site packages in your IDE, and replace the ultralytics\utils\loss.py file with [Weighted BCE Loss/loss.py](https://github.com/kai-weiss/AACVProject/blob/master/Weighted%20BCE%20Loss/loss.py) file. Currently, the class-wise weights are set to lenient. Please check the code snippet (line 165-171 in the .py file) and use the weights you require.
   ```python
@@ -91,9 +81,7 @@ Here we present the code for the approach described in Section **4.3** of our pa
 
 Check the directory [Focal Loss](https://github.com/kai-weiss/AACVProject/tree/master/Focal%20Loss) for the code.
 
-* Please use ultralytics (version=8.2.28) library
-  ```python
-  pip install ultralytics==8.2.28
+* Please make sure that you followed the installation steps in [1.1](#11-Installation).
 
 * Go to site packages in your IDE, and replace the ultralytics\utils\loss.py file with [Focal Loss/loss.py](https://github.com/kai-weiss/AACVProject/blob/master/Focal%20Loss/loss.py) file. 
 
@@ -105,14 +93,18 @@ The results of this approach have been described in Section **5.3** of our paper
 
 ## 4. YOLOv8 + Hierarchical Classification
 
-First, run [predict_with_extraction_main.py](YOLOv8%2FHierarchical_classification%2Fpredict_with_extraction_main.py) to receive the original predictions.
-They will be safed as "predictions.json". For now, the script is configured to run on the test datset (check [config.yaml](YOLOv8%2Fconfig.yaml)). If wanted, you can plot the result images.
+* Please make sure that you followed the installation steps in [1.1](#11-Installation).
 
-Afterwards, run [hierarchical_classification_main.py](YOLOv8%2FHierarchical_classification%2Fhierarchical_classification_main.py) to get the new calculated predictions, following the hierarchical classification. 
-If wanted, results will be safed as "new_predictions.json". Optionally, you can also plot the new predicions on the images.
+* Run [predict_with_extraction_main.py](YOLOv8%2FHierarchical_classification%2Fpredict_with_extraction_main.py) to receive the original predictions.
+Make sure that `save_json=True`. Be aware that, for now, the script is configured to run on the val datset (check [config.yaml](YOLOv8%2Fconfig.yaml)).
 
-### 4.1 View any live run that you started on Kaggle:
-https://wandb.ai/kaiweiss0/projects
+* Afterwards, run [hierarchical_classification_main.py](YOLOv8%2FHierarchical_classification%2Fhierarchical_classification_main.py) to get the new calculated predictions. There are several boolean variables that can be set here:
+  * `calc_hierarchical_classification = True`: Runs the hierarchical classification algorithm.
+  * `save_new_predictions = True`: Save the results to .json file.
+  * `plot_new_images = True`: Plot the new predicions on the images. Make sure you enter the images you want in `unique_image_ids`. 
+  * `validate_hier_classification = True`: Do the validation with the new predictions.
+
+The results of this approach have been described in Section **5.4** of our paper.
 
 ## 5. YOLOv8 + Ensemble Learning
 
@@ -120,11 +112,11 @@ Here we present the code for the approach described in Section **4.5.1** of our 
 
 Check the directory [Ensemble Learning](https://github.com/kai-weiss/AACVProject/tree/master/Ensemble%20Learning) for the code. 
 
+* Please make sure that you followed the installation steps in [1.1](#11-Installation).
+
 * The weights for the larger general model and specialized helper model are available as .pt files in [Ensemble Learning/ensemble_models](https://github.com/kai-weiss/AACVProject/tree/master/Ensemble%20Learning/ensemble_models). Use these .pt files to initialize the models in [Ensemble Learning/custom_val.py](https://github.com/kai-weiss/AACVProject/blob/master/Ensemble%20Learning/custom_val.py) file. Please note, this .py file assumes that model1 is the bigger model, and model2 is the smaller model (hence, use .pt weights accordingly). Simply run this .py file to get the evaluation metrics for the ensemble. 
 
-* No changes need to be made to the files [Ensemble Learning/ensemble_learning.py](https://github.com/kai-weiss/AACVProject/blob/master/Ensemble%20Learning/ensemble_learning.py) and [Ensemble Learning/custom_validator.py](https://github.com/kai-weiss/AACVProject/blob/master/Ensemble%20Learning/custom_validator.py) The former .py file ensembles the prediction results from the two models of the ensemble. The latter .py file makes changes to YOLOv8's BaseValidator to generate the evaluation results for the ensemble. 
-
-* Please use ultralytics (version=8.2.28) library as it is. 
+* No changes need to be made to the files [Ensemble Learning/ensemble_learning.py](https://github.com/kai-weiss/AACVProject/blob/master/Ensemble%20Learning/ensemble_learning.py) and [Ensemble Learning/custom_validator.py](https://github.com/kai-weiss/AACVProject/blob/master/Ensemble%20Learning/custom_validator.py) The former .py file ensembles the prediction results from the two models of the ensemble. The latter .py file makes changes to YOLOv8's BaseValidator to generate the evaluation results for the ensemble.
 
 The results of this approach have been described in Section **5.5.1** of our paper.
 
@@ -162,7 +154,10 @@ The results of this approach have been described in Section **5.5.1** of our pap
 
 
 **4. YOLOv8 + Hierarchical Classification**
-
+* Selective Hierarchical Classification:
+![Selective Hierarchical Classification](Results/Hierarchical_classification/sel_hier_class.png)
+* Universal Hierarchical Classification:
+![Universal Hierarchical Classification](Results/Hierarchical_classification/uni_hier_class.png)
 
 **5. YOLOv8 + Ensemble Learning**
 ![confusion_matrix](https://github.com/user-attachments/assets/b767b97c-14a5-402b-b09b-15cc548b08a1)
