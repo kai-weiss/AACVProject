@@ -146,9 +146,17 @@ The results of this approach have been described in Section **5.5.1** of our pap
 ## RESULTS: Confusion Matrices
 
 **1. YOLOv8**
+
 <img width="688" alt="plainYOLO" src="https://github.com/user-attachments/assets/2c778b03-5bb5-4a2c-84a5-5506228891d5">
 
 **2. YOLOv8 + Weighted BCE**
+
+* Strict class weights and higher IoU threshold (0.7)
+
+* Lenient class weights and higher IoU threshold (0.7)
+
+* Lenient class weights and lower IoU threshold (0.5)
+![image](https://github.com/user-attachments/assets/0eb6a348-fd5c-4974-bc6a-b264328ac8fd)
 
 
 **3. YOLOv8 + Focal Loss**
