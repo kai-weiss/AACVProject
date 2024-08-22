@@ -47,7 +47,6 @@ Validation results for YOLOv8 (shrunk dataset!):
 Example Test result (shrunk dataset!):
 
 ![First image test result](Results/YOLOv8/frontFar_BLR-2018-04-16_15-34-27_frontFar_0002580.jpg)
-![First video result](Results/YOLOv8/video1.gif)
 
 ## 2. YOLOv8 + Weighted BCE Loss
 
