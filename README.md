@@ -1,3 +1,5 @@
+## APPROACHES
+
 ## 1. YOLOv8 
 
 ## 1.1 Installation
@@ -84,7 +86,7 @@ results = model.train(data="/data/idd_data.yaml", epochs=200, iou=0.5)
 
 The results of this approach have been described in Section **5.2** of our paper.
 
-Out of the three experiments, lenient weights with lowert iou threshold (0.5) performed the best.
+Out of the three experiments, lenient weights with lower iou threshold (0.5) performed the best.
 
 ## 3. YOLOv8 + Focal Loss
 
@@ -102,7 +104,8 @@ Check the directory [Focal Loss](https://github.com/kai-weiss/AACVProject/tree/m
 
 * After the above changes, run [Focal Loss/focalloss_main.py](https://github.com/kai-weiss/AACVProject/blob/master/Focal%20Loss/focalloss_main.py).
 
-(TODO - add the confusion matrices)
+Confusion Matrix:
+![focalloss](https://github.com/user-attachments/assets/6cf5a9ea-ae84-4a32-ae76-dec5ffcd126b)
 
 The results of this approach have been described in Section **5.3** of our paper.
 
