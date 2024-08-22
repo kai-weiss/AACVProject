@@ -146,7 +146,7 @@ The results of this approach have been described in Section **5.5.1** of our pap
 ## RESULTS: Confusion Matrices
 
 **1. YOLOv8**
-
+<img width="688" alt="plainYOLO" src="https://github.com/user-attachments/assets/2c778b03-5bb5-4a2c-84a5-5506228891d5">
 
 **2. YOLOv8 + Weighted BCE**
 
@@ -158,4 +158,5 @@ The results of this approach have been described in Section **5.5.1** of our pap
 
 
 **5. YOLOv8 + Ensemble Learning**
+![confusion_matrix](https://github.com/user-attachments/assets/b767b97c-14a5-402b-b09b-15cc548b08a1)
 
