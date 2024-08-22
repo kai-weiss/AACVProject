@@ -50,3 +50,6 @@ family_mapping:
   "bicycle" : "two wheeler"
   "traffic sign" : "non driving"
   "traffic light" : "non driving"
+  "two wheeler" : "vehicle"
+  "large vehicle" : "vehicle"
+

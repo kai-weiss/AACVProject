@@ -54,24 +54,56 @@ def prepare_dictionaries(species_mapping, family_mapping):
     return inverted_species_mapping, inverted_family_mapping
 
 
-def run_hierarchical_classification(predictions_file, threshold, species_mapping, family_mapping):
+def run_hierarchical_classification(predictions_file, hier_threshold, species_mapping, family_mapping, universal=False):
+    """
+    Run the hierarchical classification algorithm.
+
+    For validation, we have to do a workaround:
+    YOLOv8 sadly does not support multi-label classification (yet). So the idea is to set every specific class to the
+    most general family classes (so either Non-driv., Living things or Vehicle, please compare with the hierarchical
+    classification tree). With that, we use modified label annotations
+    that also only contain the most general family classes, which makes a comparison finally possible. Keep in mind
+    that we still keep the confidence scores with the actual classes that reaches 0.75!
+
+    Args:
+        predictions_file (str): Path to an image directory (like the test dataset).
+        hier_threshold (float):
+        species_mapping (any): List of all classes.
+        family_mapping (any): List of all family relations.
+        universal (bool, optional): Set False for Selective Hierarchical Classification. Set True for
+        Universal Hierarchical Classification. Please check the paper for the difference in both approaches.
+
+    Returns:
+        list: List of selected bounding box dictionaries for all the images given as input.
+    """
     # Load the predictions
     with open(predictions_file, "r") as f:
         predictions = json.load(f)
 
     inverted_species_mapping, inverted_family_mapping = prepare_dictionaries(species_mapping, family_mapping)
 
+    threshold = hier_threshold
+
     # Process each prediction and update the category_id and original_category_id
     for prediction in predictions:
 
         class_found = False
+        if universal:
+            threshold = 1
 
         species_index = prediction['category_id']
         species_name = species_mapping.get(species_index)
 
         original_score = max(prediction['activations'])
 
+        # For Validation
+        # valid_family_name = family_mapping.get(species_name)
+        # valid_family_index = inverted_species_mapping[valid_family_name]
+        # prediction['val_category_id'] = valid_family_index - 10
+
+        # Actual hierarchical classification algorithm
         if species_name is not None:
+
             # Determine if the species should be updated based on activation threshold
             if original_score < threshold:
                 family_name = family_mapping.get(species_name)
@@ -86,8 +118,12 @@ def run_hierarchical_classification(predictions_file, threshold, species_mapping
 
                     family_index = inverted_species_mapping[family_name]
 
+                    if universal:
+                        threshold = hier_threshold
+
                     if family_score >= threshold:
                         class_found = True
+
                         # Update category_id and original_category_id
                         prediction['original_category_id'] = species_index
                         prediction['category_id'] = family_index
@@ -98,6 +134,7 @@ def run_hierarchical_classification(predictions_file, threshold, species_mapping
                     # if there is an upper category
                     prediction['original_category_id'] = species_index
                     prediction['category_id'] = 15  # root
+                    # prediction['val_category_id'] = 5  # root
                     prediction['original_score'] = original_score
                     prediction['score'] = 1
 

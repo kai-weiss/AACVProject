@@ -55,26 +55,26 @@ class CustomBaseValidator(BaseValidator):
         # --> MODI CODE END <-- #
 
 
-def use_custom_predictions(custom_predictions, current_file, predn_conf, predn_pred_cls):
+# Change out the confidence scores and prediction classes
+def use_custom_predictions(custom_predictions, current_file, predn_conf, predn_cls):
+    new_length = -1
 
     for pred in custom_predictions:
-
+        # predn_conf = pred.boxes.conf
+        # predn_cls = pred.boxes.cls
         if pred.path == current_file:
+            new_length = len(pred.boxes.cls)
 
             for i in range(len(pred.boxes.cls)):
 
-                if predn_pred_cls[i] != pred.boxes.cls[i]:
-                    warnings.warn("DIFFERENT CLASSES")
-                    # x = predn_pred_cls[i]
-                    # y = pred.boxes.cls[i]
+                if len(predn_cls) > i:
+                    predn_conf[i] = pred.boxes.conf[i]
+                    predn_cls[i] = pred.boxes.cls[i]
 
-                predn_conf[i] = pred.boxes.conf[i]
-                # Ensemble learning maybe needs more than just changing the confidence scores..
-                # predn_pred_cls[i] = pred.boxes.cls[i]
+    if new_length == -1:
+        print("Method went wrong")
 
-            break
-
-    return predn_conf
+    return predn_conf, predn_cls, new_length
 
 
 class CustomDetectionValidator(CustomBaseValidator, DetectionValidator):
@@ -94,7 +94,6 @@ class CustomDetectionValidator(CustomBaseValidator, DetectionValidator):
 
     def update_metrics(self, preds, batch):
         """Metrics."""
-        # print("NEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEW")
         for si, pred in enumerate(preds):
             self.seen += 1
             npr = len(pred)
@@ -105,6 +104,7 @@ class CustomDetectionValidator(CustomBaseValidator, DetectionValidator):
             )
             pbatch = self._prepare_batch(si, batch)
             cls, bbox = pbatch.pop("cls"), pbatch.pop("bbox")
+
             nl = len(cls)
             stat["target_cls"] = cls
             stat["target_img"] = cls.unique()
@@ -124,13 +124,17 @@ class CustomDetectionValidator(CustomBaseValidator, DetectionValidator):
             # --> MODI CODE START <-- #
             current_file = batch["im_file"][si]
 
-            # For hierarchical classification only the modification of the confidence score is needed.
             if self.custom_predictions:
-                predn_pred_cls = predn[:, 5]
-                predn_conf = use_custom_predictions(self.custom_predictions, current_file, predn[:, 4], predn_pred_cls)
+                predn_conf, predn_cls, new_length = use_custom_predictions(self.custom_predictions, current_file,
+                                                                           predn[:, 4], predn[:, 5], cls)
+
+                if new_length != -1:
+                    predn = predn[:new_length, :]
+                    predn_conf = predn_conf[:new_length]
+                    predn_cls = predn_cls[:new_length]
 
                 stat["conf"] = predn_conf
-                stat["pred_cls"] = predn_pred_cls
+                stat["pred_cls"] = predn_cls
             else:
                 stat["conf"] = predn[:, 4]
                 stat["pred_cls"] = predn[:, 5]
